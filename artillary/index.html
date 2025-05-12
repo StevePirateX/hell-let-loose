@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Hell Let Loose Artillery Calculator</title>
     <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
@@ -135,53 +135,57 @@
         const ussr = [];
         const great_britain = [];
 
+        let markers = [];
+
         // Current filter state
         let currentFilter = document.getElementById('nationFilter').value;
 
-			var mil_alliesgerman = 0;
-			var mil_ussr = 0;
-			var mil_greatbritain = 0;
+		var mil_alliesgerman = 0;
+		var mil_ussr = 0;
+		var mil_greatbritain = 0;
         
-		  // Set listeners
-		  const input = document.getElementById("distanceInput");
-		  input.addEventListener("keypress", function(event) {
-    			if (event.key === "Enter" || event.keyCode === 13) {
-    				update_data();
-  				}
-			});
+		// Set listeners
+		const input = document.getElementById("distanceInput");
+		input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter" || event.keyCode === 13) {
+    		    update_data();
+  		    }
+		});
 
-			// Handle mobile "Done" button
-			input.addEventListener("change", function() {
-				 if (document.activeElement === input) {
-					  update_data();
-				 }
-			});
+		// Handle mobile "Done" button
+		input.addEventListener("change", function() {
+			 if (document.activeElement === input) {
+				  update_data();
+			 }
+		});
 
-			// 3. For when the keyboard is dismissed (blur)
-			input.addEventListener("blur", function() {
-				 if (input.value && !isNaN(input.value)) {
-					  update_data();
-				 }
-			});
+		// 3. For when the keyboard is dismissed (blur)
+		input.addEventListener("blur", function() {
+			 if (input.value && !isNaN(input.value)) {
+				  update_data();
+			 }
+		});
 
-			function update_data() {
-					currentFilter = document.getElementById('nationFilter').value;
-					filterNations();
-    				addMarker();
-					// Caused issues on mobile
+		function update_data() {
+			currentFilter = document.getElementById('nationFilter').value;
+				filterNations();
+    			addMarker();
+				// Caused issues on mobile
 			   	//input.select()
-			};
+		};
 
-			// Calculate MILs
-			function get_allies_german_mil(distance) {
-				return -89 * distance / 375 + 379562/379;
-			}
-			function get_ussr_mil(distance) {
-				return -16 * distance / 75 + 3424/3;
-			}
-			function get_great_britain_mil(distance) {
-				return -133 * distance / 750 + 8261/15;
-			}
+		// Calculate MILs
+		function get_allies_german_mil(distance) {
+			return -89 * distance / 375 + 379562/379;
+		}
+
+		function get_ussr_mil(distance) {
+			return -16 * distance / 75 + 3424/3;
+		}
+
+		function get_great_britain_mil(distance) {
+			return -133 * distance / 750 + 8261/15;
+		}
         
         // Generate data points (same formulas as your Python code)
         for (let d = 100; d <= 1600; d++) {
@@ -198,32 +202,32 @@
             yaxis: { title: 'MIL Setting', range: [0, 1600] },
             hovermode: 'x',
             margin: {l: 60, r: 30, t: 60, b: 60},
-				autosize: true
+			autosize: true
         };
 
-		  const darkLayout = {
-			  paper_bgcolor: '#121212',  // Dark background for entire chart area
-			  plot_bgcolor: '#1e1e1e',   // Dark background for plot area
-			  font: { color: '#ffffff' }, // White text
-			  xaxis: {
-				title: {text: 'Distance (m)'}, 
-				range: [100, 1600],
-				 gridcolor: '#333333',    // Darker grid lines
-				 linecolor: '#444444',
-				 zerolinecolor: '#333333'
-			  },
-			  yaxis: {
-				title: {text: 'MIL'}, 
-				 gridcolor: '#333333',
-				 linecolor: '#444444',
-				 zerolinecolor: '#333333'
-			  },
-			  title: { font: { color: '#ffffff' } }
+		const darkLayout = {
+		    paper_bgcolor: '#121212',  // Dark background for entire chart area
+			plot_bgcolor: '#1e1e1e',   // Dark background for plot area
+			font: { color: '#ffffff' }, // White text
+			xaxis: {
+			    title: {text: 'Distance (m)'},
+			    range: [100, 1600],
+			    gridcolor: '#333333',    // Darker grid lines
+			    linecolor: '#444444',
+			    zerolinecolor: '#333333'
+			},
+			yaxis: {
+			    title: {text: 'MIL'},
+				gridcolor: '#333333',
+				linecolor: '#444444',
+				zerolinecolor: '#333333'
+			},
+			title: { font: { color: '#ffffff' } }
 		  };
         
         const traces = [
             {
-                x: distance,
+            x: distance,
                 y: allies_german,
                 name: 'Allies/German',
                 hovertemplate: 'Distance: %{x:.0f}m<br>MIL: %{y:.0f}<extra></extra>'
@@ -257,16 +261,15 @@
         function addMarker() {
             const inputDist = parseInt(document.getElementById('distanceInput').value);
 
-            
             if (isNaN(inputDist) || inputDist < 100 || inputDist > 1600) {
                 alert('Please enter a distance between 100-1600m');
                 return;
             }
-				
-				mil_alliesgerman = get_allies_german_mil(inputDist);
-				mil_ussr = get_ussr_mil(inputDist);
-				mil_greatbritain = get_great_britain_mil(inputDist);
-            
+
+            mil_alliesgerman = get_allies_german_mil(inputDist);
+            mil_ussr = get_ussr_mil(inputDist);
+            mil_greatbritain = get_great_britain_mil(inputDist);
+
             // Find closest data point
             let closestIdx = 0;
             let minDiff = Infinity;
@@ -277,162 +280,185 @@
                     closestIdx = i;
                 }
             }
-            
+
             // Get MIL values
             const alliesMIL = Math.round(allies_german[closestIdx]);
             const ussrMIL = Math.round(ussr[closestIdx]);
             const gbMIL = Math.round(great_britain[closestIdx]);
-            
+
             // Display results based on current filter
             updateResultsTable(alliesMIL, ussrMIL, gbMIL);
-            
-            // Add vertical line
-            const color = colors[markerCount % colors.length];
-            const line = {
-                type: 'line',
-                x0: inputDist,
-                x1: inputDist,
-                y0: 0,
-                y1: Math.max(alliesMIL, ussrMIL, gbMIL) + 100,
-                line: {
-                    color: color,
-                    width: 2,
-                    dash: 'dash'
-                }
+
+            // Create marker object
+            const color = colors[markers.length % colors.length];
+            const marker = {
+                distance: inputDist,
+                color: color,
+                alliesMIL: alliesMIL,
+                ussrMIL: ussrMIL,
+                gbMIL: gbMIL
             };
 
-            const maxMIL = Math.max(alliesMIL, ussrMIL, gbMIL);
-            
-            // Get the current visibility state from the chart
-            const chartDiv = document.getElementById('chart');
-            const annotations = [];
-            const visibleTraces = [];
+            // Add to markers array
+            markers.push(marker);
 
-            // Check which traces are visible
+            // Redraw all markers
+            drawAllMarkers();
+        }
+
+        function drawAllMarkers() {
+            const chartDiv = document.getElementById('chart');
+            const shapes = [];
+            const annotations = [];
+
+            // Get the current visibility state from the chart
+            const visibleTraces = [];
             chartDiv.data.forEach(trace => {
                 if (trace.visible === undefined || trace.visible === true || trace.visible === 'true') {
                     visibleTraces.push(trace.name);
                 }
             });
 
-            // Add intercept annotations only for visible traces
-            if (visibleTraces.includes('Allies/German')) {
-                annotations.push({
-                    x: inputDist,
-                    y: alliesMIL,
-                    xref: 'x',
-                    yref: 'y',
-                    text: `<b>${alliesMIL}</b>`,
-                    showarrow: false,
-                    bgcolor: 'rgba(79, 195, 247, 0.7)',
-                    bordercolor: '#4fc3f7',
-                    borderwidth: 1,
-                    borderpad: 4,
-                    font: { size: 16 }
+            markers.forEach((marker, index) => {
+                // Add vertical line
+                shapes.push({
+                    type: 'line',
+                    x0: marker.distance,
+                    x1: marker.distance,
+                    y0: 0,
+                    y1: Math.max(marker.alliesMIL, marker.ussrMIL, marker.gbMIL) + 100,
+                    line: {
+                        color: marker.color,
+                        width: 2,
+                        dash: 'dash'
+                    }
                 });
-            }
 
-            if (visibleTraces.includes('USSR')) {
-                annotations.push({
-                    x: inputDist,
-                    y: ussrMIL,
-                    xref: 'x',
-                    yref: 'y',
-                    text: `<b>${ussrMIL}</b>`,
-                    showarrow: false,
-                    bgcolor: 'rgba(255, 138, 101, 0.7)',
-                    bordercolor: '#ff8a65',
-                    borderwidth: 1,
-                    borderpad: 4,
-                    font: { size: 16 }
-                });
-            }
-
-            if (visibleTraces.includes('Great Britain')) {
-                annotations.push({
-                    x: inputDist,
-                    y: gbMIL,
-                    xref: 'x',
-                    yref: 'y',
-                    text: `<b>${gbMIL}</b>`,
-                    showarrow: false,
-                    bgcolor: 'rgba(129, 199, 132, 0.7)',
-                    bordercolor: '#81c784',
-                    borderwidth: 1,
-                    borderpad: 4,
-                    font: { size: 16 }
-                });
-            }
-
-            // Always add distance label
-            annotations.push({
-                x: inputDist,
-                y: 1,
-                yref: 'paper',
-                text: `${inputDist}m`,
-                showarrow: false,
-                font: {
-                    color: color,
-                    size: 14
+                // Add intercept annotations for visible traces
+                if (visibleTraces.includes('Allies/German')) {
+                    annotations.push({
+                        x: marker.distance,
+                        y: marker.alliesMIL,
+                        xref: 'x',
+                        yref: 'y',
+                        text: `<b>${marker.alliesMIL}</b>`,
+                        showarrow: false,
+                        bgcolor: 'rgba(79, 195, 247, 0.7)',
+                        bordercolor: '#4fc3f7',
+                        borderwidth: 1,
+                        borderpad: 4,
+                        font: { size: 16 }
+                    });
                 }
+
+                if (visibleTraces.includes('USSR')) {
+                    annotations.push({
+                        x: marker.distance,
+                        y: marker.ussrMIL,
+                        xref: 'x',
+                        yref: 'y',
+                        text: `<b>${marker.ussrMIL}</b>`,
+                        showarrow: false,
+                        bgcolor: 'rgba(255, 138, 101, 0.7)',
+                        bordercolor: '#ff8a65',
+                        borderwidth: 1,
+                        borderpad: 4,
+                        font: { size: 16 }
+                    });
+                }
+
+                if (visibleTraces.includes('Great Britain')) {
+                    annotations.push({
+                        x: marker.distance,
+                        y: marker.gbMIL,
+                        xref: 'x',
+                        yref: 'y',
+                        text: `<b>${marker.gbMIL}</b>`,
+                        showarrow: false,
+                        bgcolor: 'rgba(129, 199, 132, 0.7)',
+                        bordercolor: '#81c784',
+                        borderwidth: 1,
+                        borderpad: 4,
+                        font: { size: 16 }
+                    });
+                }
+
+                // Add distance label
+                annotations.push({
+                    x: marker.distance,
+                    y: 1,
+                    yref: 'paper',
+                    text: `${marker.distance}m`,
+                    showarrow: false,
+                    font: {
+                        color: marker.color,
+                        size: 14
+                    }
+                });
             });
 
             Plotly.relayout('chart', {
-                shapes: [...(layout.shapes || []), line],
-                annotations: [...(layout.annotations || []), ...annotations]
+                shapes: shapes,
+                annotations: annotations
             });
-            
-            markerCount++;
-				filterNations();
         }
         
         // Clear markers function
         function clearMarkers() {
+            markers = []
             Plotly.relayout('chart', {
                 shapes: [],
                 annotations: []
             });
             document.getElementById('results').innerHTML = '';
-            markerCount = 0;
         }
 
         // Filter nations function
         function filterNations() {
             currentFilter = document.getElementById('nationFilter').value;
             const chartDiv = document.getElementById('chart');
-            
+
             const newTraces = chartDiv.data.map(trace => {
                 return {
                     ...trace,
                     visible: currentFilter === 'ALL' || trace.name === currentFilter
                 };
             });
-            
+
             Plotly.react('chart', newTraces, chartDiv.layout);
-            
+
             updateResultsTable();
+            drawAllMarkers(); // Redraw markers with new filter
         }
         
         // Update results table based on current filter
         function updateResultsTable() {
+            if (markers.length === 0) {
+                document.getElementById('results').innerHTML = '';
+                return;
+            }
+
+            // Get the most recent marker
+            const lastMarker = markers[markers.length - 1];
+
             let tableHTML = '<table><thead><tr>';
             let bodyHTML = '<tbody><tr>';
-            
+
             if (currentFilter === 'ALL' || currentFilter === 'Allies/German') {
                 tableHTML += '<th>Allies/German</th>';
-                bodyHTML += `<td>${Math.round(mil_alliesgerman)}</td>`;
+                bodyHTML += `<td>${lastMarker.alliesMIL}</td>`;
             }
-            
+
             if (currentFilter === 'ALL' || currentFilter === 'USSR') {
                 tableHTML += '<th>USSR</th>';
-                bodyHTML += `<td>${Math.round(mil_ussr)}</td>`;
+                bodyHTML += `<td>${lastMarker.ussrMIL}</td>`;
             }
-            
+
             if (currentFilter === 'ALL' || currentFilter === 'Great Britain') {
                 tableHTML += '<th>Great Britain</th>';
-                bodyHTML += `<td>${Math.round(mil_greatbritain)}</td>`;
+                bodyHTML += `<td>${lastMarker.gbMIL}</td>`;
             }
-            
+
             tableHTML += '</tr></thead>' + bodyHTML + '</tr></tbody></table>';
             document.getElementById('results').innerHTML = tableHTML;
         }
