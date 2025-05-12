@@ -220,7 +220,10 @@
 			    title: {text: 'MIL'},
 				gridcolor: '#333333',
 				linecolor: '#444444',
-				zerolinecolor: '#333333'
+				zerolinecolor: '#333333',
+				autorange: true,
+				rangemode: 'normal',
+				range: [undefined, undefined]
 			},
 			title: { font: { color: '#ffffff' } }
 		  };
@@ -326,7 +329,7 @@
                     x0: marker.distance,
                     x1: marker.distance,
                     y0: 0,
-                    y1: Math.max(marker.alliesMIL, marker.ussrMIL, marker.gbMIL) + 100,
+                    y1: Math.max(marker.alliesMIL, marker.ussrMIL, marker.gbMIL),
                     line: {
                         color: marker.color,
                         width: 2,
@@ -338,7 +341,7 @@
                 if (visibleTraces.includes('Allies/German')) {
                     annotations.push({
                         x: marker.distance,
-                        y: marker.alliesMIL,
+                        y: marker.alliesMIL + 50,
                         xref: 'x',
                         yref: 'y',
                         text: `<b>${marker.alliesMIL}</b>`,
@@ -354,7 +357,7 @@
                 if (visibleTraces.includes('USSR')) {
                     annotations.push({
                         x: marker.distance,
-                        y: marker.ussrMIL,
+                        y: marker.ussrMIL + 50,
                         xref: 'x',
                         yref: 'y',
                         text: `<b>${marker.ussrMIL}</b>`,
@@ -370,7 +373,7 @@
                 if (visibleTraces.includes('Great Britain')) {
                     annotations.push({
                         x: marker.distance,
-                        y: marker.gbMIL,
+                        y: marker.gbMIL + 50,
                         xref: 'x',
                         yref: 'y',
                         text: `<b>${marker.gbMIL}</b>`,
