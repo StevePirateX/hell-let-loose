@@ -1,0 +1,99 @@
+body {
+    background: #001;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    overflow: hidden;
+    color: #fff;
+}
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    width: 100vw;
+}
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #1e1e1e;
+}
+input, button, select {
+    padding: 8px;
+    margin: 5px;
+    font-size: 16px;
+}
+button {
+    background: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button.clear {
+    background: #db4437;
+}
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#results {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    background: #252525;
+    border-radius: 4px;
+    margin-left: auto;
+    max-height: 80px;
+    overflow-y: auto;
+}
+#chart {
+    flex-grow: 1;
+    min-height: 0;
+    width: 100%;
+}
+h1{
+    color: white;
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    #results {
+        margin-left: 0;
+        max-height: none;
+    }
+}
+#results table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px; /* Space between cells */
+    margin: 0;
+}
+
+#results th, #results td {
+    padding: 6px 12px;
+    text-align: center;
+    font-size: 18pt;
+    background-color: #2a2a2a; /* Slightly lighter than control bg */
+    border-radius: 4px;
+}
+
+#results th {
+    font-weight: bold;
+    color: #4fc3f7; /* Match your Allies/German line color */
+}
+
+/* Dark scrollbar for results div */
+#results::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+#results::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
