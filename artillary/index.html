@@ -109,20 +109,20 @@
 <body>
 	<div id="app">
     <h1>Hell Let Loose Artillery Calculator</h1>
-    
+
     <div class="controls">
-			<div class="input-group">
-                <label for="distanceInput">Distance (m)</label><input type="number" inputmode="numeric" id="distanceInput" min="100" max="1600" value="500" step="10" placeholder="Enter distance (100-1600m)">
-		     <button onclick="update_data()">Add Marker</button>
-		     <button class="clear" onclick="clearMarkers()">Clear All</button>
-             <select id="nationFilter" onchange="update_data()">
+        <div class="input-group">
+            <label for="distanceInput">Distance (m)</label><input type="number" inputmode="numeric" id="distanceInput" min="100" max="1600" value="500" step="10" placeholder="Enter distance (100-1600m)">
+		    <button onclick="update_data()">Add Marker</button>
+		    <button class="clear" onclick="clearMarkers()">Clear All</button>
+            <select id="nationFilter" onchange="update_data()">
                 <option value="ALL">ALL</option>
                 <option value="Allies/German">Allies/German</option>
                 <option value="USSR">USSR</option>
                 <option value="Great Britain">Great Britain</option>
-             </select>
-			</div>
-			<div id="results"></div>
+            </select>
+        </div>
+        <div id="results"></div>
     </div>
     
     <div id="chart"></div>
@@ -172,7 +172,7 @@
     			addMarker();
 				// Caused issues on mobile
 			   	//input.select()
-		};
+		}
 
 		// Calculate MILs
 		function get_allies_german_mil(distance) {
