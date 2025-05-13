@@ -136,9 +136,7 @@ for (let d = 100; d <= 1600; d++) {
     great_britain.push(get_great_britain_mil(d));
 }
 
-
-
-// Add marker function
+// Add marker to the chart and update the table
 function addMarker() {
     const inputDist = parseInt(document.getElementById('distanceInput').value);
 
@@ -167,9 +165,6 @@ function addMarker() {
     const ussrMIL = Math.round(ussr[closestIdx]);
     const gbMIL = Math.round(great_britain[closestIdx]);
 
-    // Display results based on current filter
-    updateResultsTable(alliesMIL, ussrMIL, gbMIL);
-
     // Create marker object
     const color = colors[markers.length % colors.length];
     const marker = {
@@ -185,6 +180,9 @@ function addMarker() {
 
     // Redraw all markers
     drawAllMarkers();
+
+    // Display results based on current filter
+    updateResultsTable();
 }
 
 function drawAllMarkers() {
