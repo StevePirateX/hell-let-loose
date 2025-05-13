@@ -112,7 +112,7 @@
     
     <div class="controls">
 			<div class="input-group">
-		     <input type="number" inputmode="numeric" id="distanceInput" min="100" max="1600" value="500" step="10" placeholder="Enter distance (100-1600m)">
+                <label for="distanceInput">Distance (m)</label><input type="number" inputmode="numeric" id="distanceInput" min="100" max="1600" value="500" step="10" placeholder="Enter distance (100-1600m)">
 		     <button onclick="update_data()">Add Marker</button>
 		     <button class="clear" onclick="clearMarkers()">Clear All</button>
              <select id="nationFilter" onchange="update_data()">
